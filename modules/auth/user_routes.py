@@ -32,7 +32,7 @@ class Users(Resource):
     @require_auth(roles=['admin'])
     def get(self):
         """Get all users (Admin only)"""
-        users = User.query.filter_by(is_deleted=False).all()
+        users = User.query.filter_by().all()
         return format_success_response({
             'users': [{
                 'id': str(user.id),
@@ -40,6 +40,7 @@ class Users(Resource):
                 'full_name': user.full_name,
                 'phone': user.phone,
                 'role': user.role,
+                'is_deleted': user.is_deleted,
                 'created_at': user.created_at.isoformat() if user.created_at else None,
                 'last_sign_in_at': user.last_sign_in_at.isoformat() if user.last_sign_in_at else None
             } for user in users]
@@ -180,7 +181,7 @@ class UserResource(Resource):
         if not user:
             return format_error_response('User not found', 404)
         
-        user.deleted_at = datetime.utcnow()
+        user.is_deleted = True
         
         try:
             db.session.commit()
@@ -207,7 +208,7 @@ class RestoreUser(Resource):
         if user.deleted_at is None:
             return format_error_response('User is not deleted', 400)
         
-        user.deleted_at = None
+        user.is_deleted = False
         
         try:
             db.session.commit()

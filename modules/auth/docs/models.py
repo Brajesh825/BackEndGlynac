@@ -11,13 +11,13 @@ login_model = api.model('Login', {
     'email': fields.String(
         required=True,
         description='User email address',
-        example='user@example.com',
+        example='client1@glynac.com',
         pattern=r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     ),
     'password': fields.String(
         required=True,
         description='User password (min 8 characters)',
-        example='SecureP@ss123',
+        example='Client@123',
         min_length=8
     )
 })

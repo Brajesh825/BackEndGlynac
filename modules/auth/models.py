@@ -74,6 +74,10 @@ class AuthAttempts(db.Model):
     attempt_count = db.Column(db.Integer, default=0)
     last_attempt_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    __table_args__ = (
+        db.UniqueConstraint('user_id', 'ip_address', name='uix_user_ip'),
+    )
+
 class FailedLogin(db.Model):
     __tablename__ = 'failed_logins'
     

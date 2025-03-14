@@ -206,13 +206,20 @@ def update_session_tokens(session, access_token, refresh_token):
 
 def invalidate_session(session):
     """
-    Mark a session as invalidated.
+    Mark a session and its associated auth token as invalidated.
     
     Args:
         session: The session object to invalidate
     """
     session.invalidated = True
     session.invalidated_at = datetime.utcnow()
+
+    # Invalidate associated Auth token
+    auth = Auth.query.filter_by(user_id=session.user_id, access_token=session.access_token).first()
+    if auth:
+        auth.invalidated = True
+        auth.invalidated_at = datetime.utcnow()
+
     db.session.commit()
 
 def get_active_sessions(user_id):

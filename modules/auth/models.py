@@ -46,6 +46,8 @@ class Auth(db.Model):
     access_token = db.Column(db.Text)
     refresh_token = db.Column(db.Text)
     expires_at = db.Column(db.DateTime)
+    invalidated = db.Column(db.Boolean, default=False)  # New field
+    invalidated_at = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -86,6 +88,5 @@ class FailedLogin(db.Model):
     ip_address = db.Column(INET, nullable=False)  # Using PostgreSQL INET type for IP addresses
     user_agent = db.Column(db.Text)
     location = db.Column(db.Text)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow) 
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    

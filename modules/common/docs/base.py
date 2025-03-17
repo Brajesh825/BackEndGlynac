@@ -28,4 +28,4 @@ user_ns = api.namespace('users', description='User management operations')
 session_ns = api.namespace('sessions', description='Session management operations')
 
 # Export namespaces
-__all__ = ['api', 'auth_ns', 'user_ns', 'session_ns', 'org_ns']
+__all__ = ['api', 'auth_ns', 'user_ns', 'session_ns', ]

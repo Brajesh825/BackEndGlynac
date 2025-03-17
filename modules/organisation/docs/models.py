@@ -253,3 +253,161 @@ search_organization_model = org_ns.model(
         ),
     },
 )
+
+
+# Namespace for Department
+dept_ns = Namespace("department", description="Department management operations")
+
+# Department Model (Response)
+department_model = dept_ns.model(
+    "Department",
+    {
+        "id": fields.String(
+            required=True,
+            description="Unique identifier for the department",
+            example="dept_12345"
+        ),
+        "name": fields.String(
+            required=True,
+            description="Department Name",
+            example="Research and Development"
+        ),
+        "organization_id": fields.String(
+            required=True,
+            description="ID of the organization this department belongs to",
+            example="org_12345"
+        ),
+        "created_at": fields.DateTime(
+            description="Timestamp when the department was created",
+            example="2024-03-17T12:34:56Z"
+        ),
+        "updated_at": fields.DateTime(
+            description="Timestamp when the department was last updated",
+            example="2024-06-21T08:22:11Z"
+        ),
+        "is_active": fields.Boolean(
+            description="Indicates whether the department is active",
+            example=True
+        ),
+    },
+)
+
+# Create Department Model (Request)
+create_department_model = dept_ns.model(
+    "CreateDepartment",
+    {
+        "name": fields.String(
+            required=True,
+            description="Department Name",
+            example="Research and Development"
+        ),
+        "organization_id": fields.String(
+            required=True,
+            description="ID of the organization this department belongs to",
+            example="org_12345"
+        ),
+    },
+)
+
+# Update Department Model (Request)
+update_department_model = dept_ns.model(
+    "UpdateDepartment",
+    {
+        "name": fields.String(
+            required=False,
+            description="Updated department name",
+            example="Advanced Research"
+        ),
+        "is_active": fields.Boolean(
+            required=False,
+            description="Update department status (true=active, false=inactive)",
+            example=False
+        ),
+    },
+)
+
+# Delete Department Response Model
+delete_department_response_model = dept_ns.model(
+    "DeleteDepartmentResponse",
+    {
+        "message": fields.String(
+            description="Success message",
+            example="Department deleted successfully"
+        ),
+        "department_id": fields.String(
+            description="ID of the deleted department",
+            example="dept_12345"
+        ),
+    },
+)
+
+# Department Activation Model (Enable/Disable Department)
+activate_department_model = dept_ns.model(
+    "ActivateDepartment",
+    {
+        "is_active": fields.Boolean(
+            required=True,
+            description="Set department status (true=active, false=inactive)",
+            example=True
+        ),
+    },
+)
+
+# Department Search Filter Model
+search_department_model = dept_ns.model(
+    "SearchDepartment",
+    {
+        "name": fields.String(
+            required=False,
+            description="Filter by department name",
+            example="Research"
+        ),
+        "organization_id": fields.String(
+            required=False,
+            description="Filter by organization ID",
+            example="org_12345"
+        ),
+        "is_active": fields.Boolean(
+            required=False,
+            description="Filter by active/inactive status",
+            example=True
+        ),
+    },
+)
+
+# Department Successfully Created Model
+department_successfully_create_modal = dept_ns.model("DepartmentSuccessfullyCreated", {
+    "message": fields.String(default="Department successfully created"),
+    "data": fields.Nested(department_model),
+})
+
+# Department Successfully Fetched Model
+department_successfully_fetched_model = dept_ns.model("DepartmentSuccessfullyFetched", {
+    "message": fields.String(default="Department successfully fetched"),
+    "data": fields.Nested(department_model),
+})
+
+# Departments Successfully Fetched Model
+departments_successfully_fetched_model = dept_ns.model("DepartmentsSuccessfullyFetched", {
+    "message": fields.String(default="Departments successfully fetched"),
+    "data": fields.List(fields.Nested(department_model)),
+})
+
+# Department Validation Error Model
+department_validation_error_model = dept_ns.model("DepartmentValidationError", {
+    "error": fields.String(
+        required=True,
+        description="Error message indicating validation failure",
+        example="Missing required fields"
+    ),
+    "details": fields.Raw(
+        required=True,
+        description="Detailed field-specific validation errors (if applicable)",
+        example={}
+    ),
+    "missing_fields": fields.List(
+        fields.String,
+        description="List of missing required fields",
+        example=["name", "organization_id"]
+    )
+})

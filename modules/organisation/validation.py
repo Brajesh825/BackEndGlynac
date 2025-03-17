@@ -101,3 +101,30 @@ def validate_organization_data(data):
             field_errors["website"] = error
 
     return not bool(field_errors), field_errors, []
+
+def validate_department_data(data, is_update=False):
+    """Validate department creation data.
+    
+    Args:
+        data (dict): The input data containing department details.
+        is_update (bool): Flag to indicate if this is an update operation.
+    
+    Returns:
+        tuple: (bool, dict, list) indicating validation success, field errors, and missing fields.
+    """
+    required_fields = ["name", "organisation_id"]
+    missing_fields = [field for field in required_fields if field not in data or not data[field]]
+    field_errors = {}
+
+    if missing_fields and not is_update:
+        return False, {}, missing_fields
+
+    # Validate name
+    if "name" in data and len(data["name"]) < 2:
+        field_errors["name"] = "Department name must be at least 2 characters long"
+
+    # Validate organisation_id
+    if "organisation_id" in data and not re.match(r'^[a-fA-F0-9-]{36}$', data["organisation_id"]):
+        field_errors["organisation_id"] = "Invalid organisation ID format"
+
+    return not bool(field_errors), field_errors, missing_fields

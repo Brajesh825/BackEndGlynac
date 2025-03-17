@@ -6,8 +6,6 @@ from ..common.utils import format_error_response, format_success_response
 from .validation import validate_organization_data
 from ..auth.docs.models import user_unauthorized_model , user_forbidden_model
 
-
-@org_ns.route("/")
 @org_ns.route("/")
 class OrganizationList(Resource):
     @org_ns.expect(create_organization_model)

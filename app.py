@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from modules.common.config import Config
 from modules.common.database import db
 from modules.auth import init_app as init_auth
+from modules.organisation import init_app as init_organization
 from modules.auth.seeds import run_seeds
 from modules.common.docs import api
 from datetime import datetime, UTC
@@ -30,6 +31,7 @@ def create_app(config_class=Config):
     
     # Initialize auth module first (this registers the routes with the namespaces)
     init_auth(app)
+    init_organization(app)
     
     # Initialize API documentation after routes are registered
     api.init_app(app)

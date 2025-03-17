@@ -27,5 +27,7 @@ auth_ns = api.namespace('auth', description='Authentication operations')
 user_ns = api.namespace('users', description='User management operations')
 session_ns = api.namespace('sessions', description='Session management operations')
 
+org_ns = api.namespace('organizations', description='Organization management operations')  # Added organization namespace
+
 # Export namespaces
-__all__ = ['api', 'auth_ns', 'user_ns', 'session_ns'] 
+__all__ = ['api', 'auth_ns', 'user_ns', 'session_ns', 'organization_ns']
